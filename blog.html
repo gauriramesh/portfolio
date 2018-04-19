@@ -1,0 +1,61 @@
+<?php
+// blog page
+$ch = curl_init("https://api.dropinblog.com/v1/html/?b=QKNW1LXFEFUXVD0BBXE2&c=".$_GET['c']."&p=".$_GET['p']."&page=".$_GET['page']);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$response = curl_exec($ch);
+curl_close($ch);
+$dib = json_decode($response);
+?>
+<?php
+// recent
+$ch = curl_init("https://api.dropinblog.com/v1/html/recentposts/?b=QKNW1LXFEFUXVD0BBXE2&num=4");
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$response = curl_exec($ch);
+curl_close($ch);
+$dib_recent = json_decode($response);
+?>
+
+<html class="page">
+<?php 
+define('WP_USE_THEMES', false);
+require('blog/wordpress/wp-blog-header.php'); ?>
+   <head>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script src="main.js"></script>
+      <a name="home"></a>
+      <link href="style.css" type="text/css" rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/css?family=Delius+Swash+Caps" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
+	  <link href="https://fonts.googleapis.com/css?family=Barrio" rel="stylesheet">
+	  <link href="https://fonts.googleapis.com/css?family=Fredericka+the+Great" rel="stylesheet">
+	  <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
+      <style> 
+         body {
+         background-color: #031424;
+         }
+      </style>
+      <div id="myContainer"> 
+		<div id="myAnimation"> </div>
+	  </div>
+      <title> Projects</title>
+      <a href="index" style="text-decoration:none"><h1> Gauri Ramesh</h1></a>
+      <br> </br>
+   </head>
+   <body style="margin:0; width: 100%; height: 100%">
+ 
+    <script
+    src="https://www.googleapis.com/blogger/v3/blogs/byurl?url=http://gauriramesh.blogspot.com"></script>
+	<div class="blog" id="blog"> 
+     <h2> I'm still building this part of the website. Thanks for your patience!</h2>
+	 <div class="feed"> <script language="JavaScript" src="http://feed2js.org//feed2js.php?src=https%3A%2F%2Fgaurirameshblog.wordpress.com%2Ffeed%2F&chan=y&au=y&date=y&utf=y&css=style.css&html=a"  charset="UTF-8" type="text/javascript"></script>
+
+<noscript>
+<a href="http://feed2js.org//feed2js.php?src=https%3A%2F%2Fgaurirameshblog.wordpress.com%2Ffeed%2F&chan=y&au=y&date=y&utf=y&css=style.css&html=y">View RSS feed</a>
+</noscript></div>
+<?php echo $dib->data->content ?>
+<?php echo $dib->data->headTitle ?>
+<?php echo $dib->data->headDescription ?>
+<?php echo $dib_recent->data->content ?>
+	 </div>
+   </body>
+</html>
